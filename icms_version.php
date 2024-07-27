@@ -152,17 +152,7 @@ $modversion['config'][] = array(
   'default' => 5);
 
 /** Comments information */
-$modversion['hasComments'] = 1;
-
-$modversion['comments'] = array(
-  'itemName' => 'tag_id',
-  'pageName' => 'tag.php',
-  /* Comment callback functions */
-  'callbackFile' => 'include/comment.inc.php',
-  'callback' => array(
-    'approve' => 'imtagging_com_approve',
-    'update' => 'imtagging_com_update')
-    );
+$modversion['hasComments'] = 0;
 
 /** Notification information */
 $modversion['hasNotification'] = 1;
