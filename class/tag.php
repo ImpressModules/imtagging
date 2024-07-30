@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
  * @since 1.0
  * @author marcan aka Marc-André Lanciault <marcan@smartfactory.ca>
- * 
+ *
  */
 if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
 
@@ -27,9 +27,7 @@ class ImtaggingTag extends icms_ipf_seo_Object {
 		$this->quickInitVar('tag_description', XOBJ_DTYPE_TXTAREA);
 		$this->quickInitVar('tag_created_date', XOBJ_DTYPE_LTIME);
 		$this->quickInitVar('tag_uid', XOBJ_DTYPE_INT);
-		$this->quickInitVar('tag_cancomment', XOBJ_DTYPE_INT, false, false, false, true);
 
-		$this->setControl('tag_cancomment', 'yesno');
 		$this->setControl('tag_uid', 'user');
 
 		$this->initiateSEO();

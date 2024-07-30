@@ -8,7 +8,7 @@
  * @since 1.0
  * @author marcan aka Marc-André Lanciault <marcan@smartfactory.ca>
  * @package imtagging
- * 
+ *
  */
 
 /**
@@ -121,11 +121,6 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 				$icmsTpl->assign('imtagging_category_path', $tagObj->getVar('tag_title'));
 			} else {
 				redirect_header(IMTAGGING_URL, 3, _NOPERM);
-			}
-
-			if ($icmsModuleConfig['com_rule'] && $tagObj->getVar('tag_cancomment')) {
-				$icmsTpl->assign('imtagging_tag_comment', true);
-				include_once ICMS_ROOT_PATH . '/include/comment_view.php';
 			}
 			break;
 	}

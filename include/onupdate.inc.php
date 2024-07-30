@@ -16,12 +16,12 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
  * @since 1.0
  * @author marcan aka Marc-André Lanciault <marcan@smartfactory.ca>
- * 
+ *
  */
 if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
 
 // this needs to be the latest db version
-define('IMTAGGING_DB_VERSION', 1);
+define('IMTAGGING_DB_VERSION', 2);
 
 /**
  * it is possible to define custom functions which will be call when the module is updating at the
@@ -34,6 +34,15 @@ define('IMTAGGING_DB_VERSION', 1);
  * function imtagging_db_upgrade_2() {
  * }
  */
+
+function imtagging_db_upgrade_2() {
+	$icmsDatabaseUpdater = icms_db_legacy_Factory::getDatabaseUpdater();
+	//$icmsDatabaseUpdater->;
+	$sql = sprintf("ALTER TABLE %s DROP column tag_cancomment", icms::$xoopsDB->prefix('imtagging_tag'));
+	if (! $result = icms::$xoopsDB->queryF($sql)) {
+		echo 'Error while removing column tag_cancomment.';
+	}
+	 }
 function icms_module_update_imtagging($module) {
 	/**
 	 * Using the IcmsDatabaseUpdater to automaticallly manage the database upgrade dynamically
