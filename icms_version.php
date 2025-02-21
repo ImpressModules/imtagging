@@ -42,7 +42,7 @@ $modversion = array(
   'developer_website_name' => "Github",
   'developer_email' => "david.j@impresscms.org");
 $modversion['people']['developers'][] = "[url=https://www.impresscms.org/userinfo.php?uid=1102]fiammybe[/url] (David Janssens)";
-$modversion['warning'] = _CO_SOBJECT_WARNING_RC;
+$modversion['warning'] = _CO_ICMS_WARNING_RC;
 
 /** Administrative information */
 $modversion['hasAdmin'] = 1;
@@ -136,8 +136,8 @@ foreach($groups_array as $k=>$v) {
 
 $modversion['config'][1] = array(
   'name' => 'tager_groups',
-  'title' => '_MI_IMTAGGING_TAGERGR',
-  'description' => '_MI_IMTAGGING_TAGERGRDSC',
+  'title' => _MI_IMTAGGING_TAGERGR,
+  'description' => _MI_IMTAGGING_TAGERGRDSC,
   'formtype' => 'select_multi',
   'valuetype' => 'array',
   'options' => $select_groups_options,
@@ -145,24 +145,14 @@ $modversion['config'][1] = array(
 
 $modversion['config'][] = array(
   'name' => 'tags_limit',
-  'title' => '_MI_IMTAGGING_LIMIT',
-  'description' => '_MI_IMTAGGING_LIMITDSC',
+  'title' => _MI_IMTAGGING_LIMIT,
+  'description' => _MI_IMTAGGING_LIMITDSC,
   'formtype' => 'textbox',
   'valuetype' => 'text',
   'default' => 5);
 
 /** Comments information */
-$modversion['hasComments'] = 1;
-
-$modversion['comments'] = array(
-  'itemName' => 'tag_id',
-  'pageName' => 'tag.php',
-  /* Comment callback functions */
-  'callbackFile' => 'include/comment.inc.php',
-  'callback' => array(
-    'approve' => 'imtagging_com_approve',
-    'update' => 'imtagging_com_update')
-    );
+$modversion['hasComments'] = 0;
 
 /** Notification information */
 $modversion['hasNotification'] = 1;
