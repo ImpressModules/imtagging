@@ -18,8 +18,6 @@ class ImtaggingTag extends icms_ipf_seo_Object {
 	 * @param object $handler ImtaggingTagHandler object
 	 */
 	public function __construct(&$handler) {
-		global $icmsConfig;
-
 		parent::__construct($handler);
 
 		$this->quickInitVar('tag_id', XOBJ_DTYPE_INT, true);
@@ -59,6 +57,35 @@ class ImtaggingTag extends icms_ipf_seo_Object {
 	function tag_uid() {
 		return icms_member_user_Handler::getUserLink($this->getVar('tag_uid', 'e'));
 	}
+
+	/**
+	 * Everybody can view a tag
+	 *
+	 * @param string $perm_name specific permission to check
+	 * @return bool
+	 */
+	function accessGranted($perm_name = null) {
+		return true;
+	}
+
+	/**
+	 * Check to see if the current user can edit or delete this tag
+	 *
+	 * @return bool true if he can, false if not
+	 */
+	function userCanEditAndDelete() {
+		global $imtagging_isAdmin;
+
+		if (!is_object(icms::$user)) {
+			return false;
+		}
+
+		if ($imtagging_isAdmin) {
+			return true;
+		}
+
+		return $this->getVar('tag_uid', 'e') == icms::$user->getVar('uid');
+	}
 }
 
 class ImtaggingTagHandler extends icms_ipf_Handler {
@@ -70,7 +97,65 @@ class ImtaggingTagHandler extends icms_ipf_Handler {
 		parent::__construct($db, 'tag', 'tag_id', 'tag_title', 'tag_description', 'imtagging');
 	}
 
-	public function getTags($start = 0, $limit = 0, $userid = FALSE, $year = FALSE, $month = FALSE) {}
+	/**
+	 * Check if the current user can submit a new tag or not
+	 *
+	 * @return bool true if he can false if not
+	 */
+	public function userCanSubmit() {
+		global $imtagging_isAdmin;
 
-	public function getTagsCount($userid = FALSE, $year = FALSE, $month = FALSE) {}
+		if (!is_object(icms::$user)) {
+			return false;
+		}
+
+		if ($imtagging_isAdmin) {
+			return true;
+		}
+
+		$imtaggingConfig = icms_getModuleConfig(basename(dirname(__DIR__)));
+		$tagerGroups = (array) ($imtaggingConfig['tager_groups'] ?? []);
+
+		return count(array_intersect($tagerGroups, icms::$user->getGroups())) > 0;
+	}
+
+	public function getTagsCriteria($start = 0, $limit = 0, $userid = false, $year = false, $month = false) {
+		$criteria = new icms_db_criteria_Compo();
+
+		if ($start) {
+			$criteria->setStart((int) $start);
+		}
+
+		if ($limit) {
+			$criteria->setLimit((int) $limit);
+		}
+
+		$criteria->setSort('tag_created_date');
+		$criteria->setOrder('DESC');
+
+		if ($userid) {
+			$criteria->add(new icms_db_criteria_Item('tag_uid', (int) $userid));
+		}
+
+		if ($year && $month) {
+			$criteriaYearMonth = new icms_db_criteria_Compo();
+			$criteriaYearMonth->add(new icms_db_criteria_Item('MONTH(FROM_UNIXTIME(tag_created_date))', (int) $month));
+			$criteriaYearMonth->add(new icms_db_criteria_Item('YEAR(FROM_UNIXTIME(tag_created_date))', (int) $year));
+			$criteria->add($criteriaYearMonth);
+		}
+
+		return $criteria;
+	}
+
+	public function getTags($start = 0, $limit = 0, $userid = false, $year = false, $month = false): array {
+		$criteria = $this->getTagsCriteria($start, $limit, $userid, $year, $month);
+
+		return (array) $this->getObjects($criteria, true, false);
+	}
+
+	public function getTagsCount($userid = false, $year = false, $month = false): int {
+		$criteria = $this->getTagsCriteria(false, false, $userid, $year, $month);
+
+		return (int) $this->getCount($criteria);
+	}
 }

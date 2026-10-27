@@ -28,7 +28,7 @@ function editcategory_link($category_link_id = 0) {
 	if (isset($_POST['op'])) {
 		$controller = new icms_ipf_Controller($imtagging_category_link_handler);
 		$controller->postDataToObject($category_linkObj);
-		if ($_POST['op'] == 'changedField') {
+		if ($_POST['op'] == 'changedField' && isset($_POST['changedField'])) {
 
 			switch ($_POST['changedField']) {
 				case 'category_link_mid':
@@ -88,8 +88,8 @@ $valid_op = array(
 	'view',
 	'');
 
-if (isset($_GET['op'])) $clean_op = htmlentities($_GET['op']);
-if (isset($_POST['op'])) $clean_op = htmlentities($_POST['op']);
+if (isset($_GET['op'])) $clean_op = htmlentities((string) $_GET['op']);
+if (isset($_POST['op'])) $clean_op = htmlentities((string) $_POST['op']);
 
 /**
  * Again, use a naming convention that indicates the source of the content of the variable

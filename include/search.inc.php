@@ -13,19 +13,5 @@
 if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
 
 function imtagging_search($queryarray, $andor, $limit, $offset, $userid) {
-	/*
-	 * $imtagging_tag_handler = icms_getModulehandler('tag', 'imtagging');
-	 * $tagsArray = $imtagging_tag_handler->getTagsForSearch($queryarray, $andor, $limit, $offset, $userid);
-	 *
-	 * foreach ($tagsArray as $tagArray) {
-	 * $item['image'] = "images/tag.png";
-	 * $item['link'] = $tagArray['itemUrl'];
-	 * $item['title'] = $tagArray['tag_title'];
-	 * $item['time'] = strtotime($tagArray['tag_published_date']);
-	 * $item['uid'] = $tagArray['tag_uid'];
-	 * $ret[] = $item;
-	 * unset($item);
-	 * }
-	 * return $ret;
-	 */
+	return array();
 }

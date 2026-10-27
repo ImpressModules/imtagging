@@ -37,7 +37,9 @@ define("_AM_IMTAGGING_CATEGORY_VIEW_DSC", "Aqui está a informação sobre esta 
 // Category_link
 define("_AM_IMTAGGING_CATEGORY_LINK_LINKS_DSC", "Todas as categorias agregadas no módulo");
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE", "Incluir um link para a categoria");
-define("_AM_IMTAGGING_CATEGORY_LINK", "Link da Categoria");
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Link da Categoria");
+}
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE_INFO", "Preencha o seguinte formulário para criar um novo link na categoria.");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT", "Editar este link de categoria");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT_INFO", "Preencha o seguinte formulário para modificar este linkd de categoria.");

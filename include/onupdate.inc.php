@@ -36,13 +36,21 @@ define('IMTAGGING_DB_VERSION', 2);
  */
 
 function imtagging_db_upgrade_2() {
-	$icmsDatabaseUpdater = icms_db_legacy_Factory::getDatabaseUpdater();
-	//$icmsDatabaseUpdater->;
-	$sql = sprintf("ALTER TABLE %s DROP column tag_cancomment", icms::$xoopsDB->prefix('imtagging_tag'));
-	if (! $result = icms::$xoopsDB->queryF($sql)) {
-		echo 'Error while removing column tag_cancomment.';
+	$table = icms::$xoopsDB->prefix('imtagging_tag');
+	$result = icms::$xoopsDB->queryF(sprintf("SHOW COLUMNS FROM %s LIKE 'tag_cancomment'", $table));
+
+	if (!$result || icms::$xoopsDB->getRowsNum($result) === 0) {
+		return true;
 	}
-	 }
+
+	if (!icms::$xoopsDB->queryF(sprintf("ALTER TABLE %s DROP COLUMN tag_cancomment", $table))) {
+		echo 'Error while removing column tag_cancomment.';
+		return false;
+	}
+
+	return true;
+}
+
 function icms_module_update_imtagging($module) {
 	/**
 	 * Using the IcmsDatabaseUpdater to automaticallly manage the database upgrade dynamically

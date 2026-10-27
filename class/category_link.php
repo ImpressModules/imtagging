@@ -18,8 +18,6 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 	 * @param object $handler ImtaggingCategory_linkHandler object
 	 */
 	public function __construct(&$handler) {
-		global $icmsConfig;
-
 		parent::__construct($handler);
 
 		$this->quickInitVar('category_link_id', XOBJ_DTYPE_INT, true);
@@ -73,9 +71,11 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 			} else {
 				$ret = $obj->getItemLink();
 			}
-		} else {
-			return '';
+
+			return $ret;
 		}
+
+		return '';
 	}
 
 	function category_link_mid() {
@@ -96,7 +96,16 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 	function category_link_iid() {
 		$iid = $this->getVar('category_link_iid', 'e');
 		$moduleObj = $this->getCategory_linkModule();
-		$category_link_module_handler = icms_getModulehandler($this->getVar('category_link_item'), $moduleObj->getVar('dirname'));
+		$itemName = $this->getVar('category_link_item', 'e');
+		if (!$moduleObj || !$itemName) {
+			return '';
+		}
+
+		$category_link_module_handler = icms_getModulehandler($itemName, $moduleObj->getVar('dirname'), 'imtagging', true);
+		if (!$category_link_module_handler) {
+			return '';
+		}
+
 		$category_link_object = $category_link_module_handler->get($iid);
 		if ($category_link_object && !$category_link_object->isNew()) {
 			return $category_link_object->getItemLink();
@@ -146,11 +155,15 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 	 * @return array array of ImtaggingCategory objects
 	 */
 	function getCategoriesFromObjectIds($iids, &$handler) {
+		if (empty($iids)) {
+			return array();
+		}
+
 		$moduleObj = icms_getModuleInfo($handler->_moduleName);
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('category_link_mid', $moduleObj->getVar("mid")));
 		$criteria->add(new icms_db_criteria_Item('category_link_item', $handler->_itemname));
-		$criteria->add(new icms_db_criteria_Item('category_link_iid', '(' . implode(', ', $iids) . ')', 'IN'));
+		$criteria->add(new icms_db_criteria_Item('category_link_iid', '(' . implode(', ', array_map('intval', $iids)) . ')', 'IN'));
 
 		$sql = 'SELECT category_link_cid, category_link_iid FROM ' . $this->table;
 		$rows = $this->query($sql, $criteria);
@@ -161,9 +174,13 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 			$iids_by_cid[$row['category_link_cid']][] = $row['category_link_iid'];
 		}
 
+		if (empty($iids_by_cid)) {
+			return array();
+		}
+
 		$imtagging_category_handler = icms_getModulehandler('category', 'imtagging');
 		$criteria = new icms_db_criteria_Compo();
-		$criteria->add(new icms_db_criteria_Item('category_id', '(' . implode(', ', array_keys($iids_by_cid)) . ')', 'IN'));
+		$criteria->add(new icms_db_criteria_Item('category_id', '(' . implode(', ', array_map('intval', array_keys($iids_by_cid))) . ')', 'IN'));
 		$ret = $imtagging_category_handler->getObjects($criteria);
 
 		// add iids to each categoryObj
@@ -173,7 +190,7 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 		return $ret;
 	}
 
-	function getItemidsForCategory($cid, &$handler = false) {
+	function getItemidsForCategory($cid, &$handler) {
 		$moduleObj = icms_getModuleInfo($handler->_moduleName);
 
 		$criteria = new icms_db_criteria_Compo();

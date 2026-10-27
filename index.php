@@ -36,7 +36,9 @@ if (!empty($_GET['y']) && !empty($_GET['m']) && $Basic_Check) {
 
 $imtagging_tag_handler = icms_getModulehandler('tag');
 
-$icmsTpl->assign('imtagging_tags', $imtagging_tag_handler->getTags($clean_start, $icmsModuleConfig['tags_limit'], $clean_tag_uid, $clean_year, $clean_month));
+$tagsLimit = (int) ($imtaggingConfig['tags_limit'] ?? 5);
+
+$icmsTpl->assign('imtagging_tags', $imtagging_tag_handler->getTags($clean_start, $tagsLimit, $clean_tag_uid, $clean_year, $clean_month));
 
 /**
  * Create Navbar
@@ -47,7 +49,7 @@ if ($clean_tag_uid) {
 } else {
 	$extr_arg = '';
 }
-$pagenav = new icms_view_PageNav($tags_count, $icmsModuleConfig['tags_limit'], $clean_start, 'start', $extr_arg);
+$pagenav = new icms_view_PageNav($tags_count, $tagsLimit, $clean_start, 'start', $extr_arg);
 $icmsTpl->assign('navbar', $pagenav->renderNav());
 
 $icmsTpl->assign('imtagging_module_home', icms_getModuleName(true, true));

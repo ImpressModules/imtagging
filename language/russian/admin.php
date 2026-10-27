@@ -36,7 +36,9 @@ define("_AM_IMTAGGING_CATEGORY_VIEW_DSC", "Информация об этой к
 // Category_link
 define("_AM_IMTAGGING_CATEGORY_LINK_LINKS_DSC", "Все категории, связанные с модулем");
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE", "Добавить ссылку на категорию");
-define("_AM_IMTAGGING_CATEGORY_LINK", "Ссылка на категорию");
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Ссылка на категорию");
+}
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE_INFO", "Заполните следующую форму для создания новой ссылки на категорию.");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT", "Редактировать эту ссылку на категорию");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT_INFO", "Заполните следующую форму для редактирования ссылки на эту категорию.");

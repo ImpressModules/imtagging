@@ -37,7 +37,9 @@ define("_AM_IMTAGGING_CATEGORY_VIEW_DSC", "Información de la categoría.");
 // Category_link
 define("_AM_IMTAGGING_CATEGORY_LINK_LINKS_DSC", "Listado");
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE", "Añadir una categoría para enlazar");
-define("_AM_IMTAGGING_CATEGORY_LINK", "Categoría para enlazar");
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Categoría para enlazar");
+}
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE_INFO", "Complete el siguiente formulario para crear una nueva categoría para enlazar.");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT", "Modificar");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT_INFO", "Complete el siguiente formulario para modificar esta categoría para enlazar.");

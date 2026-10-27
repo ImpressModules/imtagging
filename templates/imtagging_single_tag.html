@@ -1,0 +1,9 @@
+<div class="imtagging_tag_container">
+    <h1><{$imtagging_tag.itemLink}></h1>
+    <div class="imtagging_tag_content">
+        <{$imtagging_tag.tag_description}>
+    </div>
+    <{if $imtagging_tag.userCanEditAndDelete}>
+        <div class="imtagging_admin_links"><{$imtagging_tag.editItemLink}><{$imtagging_tag.deleteItemLink}></div>
+    <{/if}>
+</div>

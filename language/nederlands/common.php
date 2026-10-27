@@ -44,3 +44,4 @@ define('_CO_IMTAGGING_TAG_TAG_CREATED_DATE_DSC', '');
 define('_CO_IMTAGGING_TAG_TAG_UID', 'Gemaakt door');
 define('_CO_IMTAGGING_TAG_TAG_UID_DSC', '');
 
+define('_CO_IMTAGGING_CATEGORY_ADD', '+ Nieuwe categorie toevoegen');

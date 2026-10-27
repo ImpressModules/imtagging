@@ -64,9 +64,11 @@ class ImtaggingCategory extends icms_ipf_seo_Object {
 			} else {
 				$ret = $obj->getItemLink();
 			}
-		} else {
-			return '';
+
+			return $ret;
 		}
+
+		return '';
 	}
 
 	/**
@@ -78,6 +80,10 @@ class ImtaggingCategory extends icms_ipf_seo_Object {
 		global $icmsConfig;
 
 		$imtagging_module = icms_getModuleInfo('imtagging');
+		if (!is_object(icms::$user)) {
+			return true;
+		}
+
 		$groups = icms::$user->getGroups();
 
 		$editor_default = $icmsConfig['editor_default'];

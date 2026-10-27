@@ -20,10 +20,11 @@ class ImtaggingModuleElement extends icms_form_elements_Select {
 		$criteria->add(new icms_db_criteria_Item('isactive', true));
 		$criteria->setSort('name');
 		$modulesObj = $module_handler->getObjects($criteria);
+		$modules_array = array();
 		foreach ($modulesObj as $moduleObj) {
 			$moduleObj->loadInfo($moduleObj->getVar('dirname'));
 			if (isset($moduleObj->modinfo['object_items'])) {
-			    $modules_array[$moduleObj->getVar('mid')] = $moduleObj->getVar('name');
+				$modules_array[$moduleObj->getVar('mid')] = $moduleObj->getVar('name');
 			}
 		}
 		$this->addOptionArray(array(

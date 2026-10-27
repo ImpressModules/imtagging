@@ -17,7 +17,7 @@ if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
 /**  General Information  */
 $modversion = array(
   'name'=> _MI_IMTAGGING_MD_NAME,
-  'version'=> '1.2',
+  'version'=> '1.3',
   'description'=> _MI_IMTAGGING_MD_DESC,
   'author'=> "David Janssens",
   'credits'=> "INBOX International inc., The SmartFactory",
@@ -32,10 +32,10 @@ $modversion = array(
   'image'=> "images/icon_big.png", /* for backward compatibility */
 
 /**  Development information */
-  'status_version'=> "RC",
-  'status'=> "RC",
-  'date'=> "11 August 2023",
-  'author_word'=> "Compatibility with ImpressCMS 2.0",
+  'status_version'=> "Beta",
+  'status'=> "Beta",
+  'date'=> "27 October 2026",
+  'author_word'=> "Compatibility with ImpressCMS 2.0.4 and PHP 8.2+",
 
 /** Contributors */
   'developer_website_url' => "https://github.com/ImpressModules/imtagging",
@@ -66,26 +66,7 @@ $modversion['search'] = array (
   'func' => "imtagging_search");
 
 /** Menu information */
-$modversion['hasMain'] = 0;
-
-/** Blocks information */
-$modversion['blocks'][1] = array(
-  'file' => 'tag_recent.php',
-  'name' => _MI_IMTAGGING_TAGRECENT,
-  'description' => _MI_IMTAGGING_TAGRECENTDSC,
-  'show_func' => 'imtagging_tag_recent_show',
-  'edit_func' => 'imtagging_tag_recent_edit',
-  'options' => '5',
-  'template' => 'imtagging_tag_recent.html');
-
-$modversion['blocks'][] = array(
-  'file' => 'tag_by_month.php',
-  'name' => _MI_IMTAGGING_TAGBYMONTH,
-  'description' => _MI_IMTAGGING_TAGBYMONTHDSC,
-  'show_func' => 'imtagging_tag_by_month_show',
-  'edit_func' => 'imtagging_tag_by_month_edit',
-  'options' => '',
-  'template' => 'imtagging_tag_by_month.html');
+$modversion['hasMain'] = 1;
 
 /** Templates information */
 $modversion['templates'][1] = array(

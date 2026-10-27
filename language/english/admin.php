@@ -36,7 +36,9 @@ define("_AM_IMTAGGING_CATEGORY_VIEW_DSC", "Here is the info about this category.
 // Category_link
 define("_AM_IMTAGGING_CATEGORY_LINK_LINKS_DSC", "All category linksin the module");
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE", "Add a category link");
-define("_AM_IMTAGGING_CATEGORY_LINK", "Category link");
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Category link");
+}
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE_INFO", "Fill-out the following form to create a new category link.");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT", "Edit this category link");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT_INFO", "Fill-out the following form in order to edit this category link.");

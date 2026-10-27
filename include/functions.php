@@ -31,7 +31,13 @@ function imtagging_getModuleAdminLink($moduleName = 'imtagging') {
  * @return string previous page URL
  */
 function imtagging_getPreviousPage($default = false) {
-	return icms_getPreviousPage($default);
+	$previousPage = icms::$urls['previouspage'] ?? '';
+
+	if ($previousPage) {
+		return $previousPage;
+	}
+
+	return $default ?: ICMS_URL;
 }
 
 /**

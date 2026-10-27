@@ -35,10 +35,10 @@ class ImtaggingCategoryTreeElement extends ImtaggingTrayElement {
 
 		include_once ICMS_ROOT_PATH . "/modules/imtagging/class/form/elements/imtaggingcategorycheckboxelement.php";
 		$mytree = new icms_ipf_Tree($categories, "category_id", "category_pid");
-		$options = $this->getOptionArray($mytree, $category_title_field, 0, "", $ret);
+		$ret = array();
+		$options = $this->getOptionArray($mytree, $category_title_field, 0, $ret);
 
 		$check_box = new ImtaggingCategoryCheckboxElement(null, $key . "[]", $object->getVar($key, 'e'), '<br />');
-		$ret = array();
 		$check_box->addOptionArray($options);
 		$this->addElement($check_box);
 
@@ -84,12 +84,12 @@ class ImtaggingCategoryTreeElement extends ImtaggingTrayElement {
 	 * @param XoopsObjectTree $tree
 	 * @param string $fieldName
 	 * @param int $key
-	 * @param string $prefix_curr
 	 * @param array $ret
+	 * @param string $prefix_curr
 	 *
 	 * @return array
 	 */
-	function getOptionArray($tree, $fieldName, $key, $prefix_curr = "", &$ret) {
+	function getOptionArray($tree, $fieldName, $key, array &$ret, $prefix_curr = "") {
 		if ($key > 0) {
 			$value = $tree->_tree[$key]['obj']->getVar($tree->_myId);
 			$ret[$key] = $prefix_curr . $tree->_tree[$key]['obj']->getVar($fieldName);
@@ -97,7 +97,7 @@ class ImtaggingCategoryTreeElement extends ImtaggingTrayElement {
 		}
 		if (isset($tree->_tree[$key]['child']) && !empty($tree->_tree[$key]['child'])) {
 			foreach ($tree->_tree[$key]['child'] as $childkey) {
-				$this->getOptionArray($tree, $fieldName, $childkey, $prefix_curr, $ret);
+				$this->getOptionArray($tree, $fieldName, $childkey, $ret, $prefix_curr);
 			}
 		}
 		return $ret;

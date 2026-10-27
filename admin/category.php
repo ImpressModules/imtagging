@@ -54,8 +54,8 @@ $valid_op = array(
 	'view',
 	'');
 
-if (isset($_GET['op'])) $clean_op = htmlentities($_GET['op']);
-if (isset($_POST['op'])) $clean_op = htmlentities($_POST['op']);
+if (isset($_GET['op'])) $clean_op = htmlentities((string) $_GET['op']);
+if (isset($_POST['op'])) $clean_op = htmlentities((string) $_POST['op']);
 
 /**
  * Again, use a naming convention that indicates the source of the content of the variable

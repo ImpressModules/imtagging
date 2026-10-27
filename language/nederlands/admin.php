@@ -51,3 +51,7 @@ define('_AM_IMTAGGING_TAG_MODIFIED', 'De tag is succesvol bijgewerkt.');
 define('_AM_IMTAGGING_TAG_CREATED', 'De tag is succesvol aangemaakt.');
 define('_AM_IMTAGGING_TAG_VIEW', 'Tag info');
 define('_AM_IMTAGGING_TAG_VIEW_DSC', 'Hier is de info over deze tag.');
+define('_AM_IMTAGGING_REQUIREMENTS', 'imTagging vereisten');
+define('_AM_IMTAGGING_REQUIREMENTS_INFO', 'Je systeem voldoet niet aan alle vereisten om imTagging te laten werken. Hieronder staan de vereisten.');
+define('_AM_IMTAGGING_REQUIREMENTS_ICMS_BUILD', 'imTagging vereist minstens ImpressCMS %s');
+define('_AM_IMTAGGING_REQUIREMENTS_SUPPORT', "Heb je vragen of opmerkingen? Bezoek dan onze forums op <a href='http://community.impresscms.org'>http://community.impresscms.org</a>.");
