@@ -106,6 +106,36 @@ class ImtaggingCategoryHandler extends icms_ipf_Handler {
 		parent::__construct($db, 'category', 'category_id', 'category_title', 'category_description', 'imtagging');
 	}
 
+	/**
+	 * Get the ids of all categories below a category, at any depth
+	 *
+	 * @param int $categoryId id of the parent category
+	 * @return array<int, int> ids of all descendants
+	 */
+	function getDescendantIds($categoryId) {
+		$childrenByParent = array();
+		$rows = $this->query('SELECT category_id, category_pid FROM ' . $this->table, null);
+		foreach ((array) $rows as $row) {
+			$childrenByParent[(int) $row['category_pid']][] = (int) $row['category_id'];
+		}
+
+		$descendants = array();
+		$queue = array((int) $categoryId);
+		while ($queue) {
+			$current = array_shift($queue);
+			foreach ($childrenByParent[$current] ?? array() as $childId) {
+				if (in_array($childId, $descendants, true)) {
+					continue;
+				}
+
+				$descendants[] = $childId;
+				$queue[] = $childId;
+			}
+		}
+
+		return $descendants;
+	}
+
 	function getCategoryName($category_id) {
 		$icms_persistable_registry = icms_ipf_registry_Handler::getInstance();
 		$catgeoryObj = $icms_persistable_registry->getSingleObject('category', $category_id, 'imtagging');
@@ -126,6 +156,32 @@ class ImtaggingCategoryHandler extends icms_ipf_Handler {
 	 */
 	function beforeSave(&$obj) {
 		$obj->setVar('dobr', $obj->need_do_br());
+		return true;
+	}
+
+	/**
+	 * AfterDelete event
+	 *
+	 * Removes the links to the deleted category and moves its children up one level
+	 *
+	 * @param object $obj ImtaggingCategory object
+	 * @return true
+	 */
+	function afterDelete(&$obj) {
+		$categoryId = (int) $obj->getVar('category_id', 'e');
+		$parentId = (int) $obj->getVar('category_pid', 'e');
+
+		$this->db->queryF(sprintf(
+			'UPDATE %s SET category_pid = %d WHERE category_pid = %d',
+			$this->table,
+			$parentId,
+			$categoryId
+		));
+
+		$category_link_handler = icms_getModuleHandler('category_link', 'imtagging');
+		$criteria = new icms_db_criteria_Item('category_link_cid', $categoryId);
+		$category_link_handler->deleteAll($criteria);
+
 		return true;
 	}
 }

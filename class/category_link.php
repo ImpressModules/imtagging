@@ -196,8 +196,10 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('category_link_mid', $moduleObj->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('category_link_item', $handler->_itemname));
-		$criteria->add(new icms_db_criteria_Item('category_link_cid', $cid));
-		$sql = 'SELECT category_link_iid FROM ' . $this->table;
+		$imtagging_category_handler = icms_getModulehandler('category', 'imtagging');
+		$categoryIds = array_merge(array((int) $cid), $imtagging_category_handler->getDescendantIds($cid));
+		$criteria->add(new icms_db_criteria_Item('category_link_cid', '(' . implode(', ', $categoryIds) . ')', 'IN'));
+		$sql = 'SELECT DISTINCT category_link_iid FROM ' . $this->table;
 		$rows = $this->query($sql, $criteria);
 		$ret = array();
 		foreach ($rows as $row) {
