@@ -17,6 +17,12 @@ $adminmenu[] = array(
 $adminmenu[] = array(
 	'title' => _MI_IMTAGGING_TAGS,
 	'link' => "admin/tag.php");
+$adminmenu[] = array(
+	'title' => _MI_IMTAGGING_TREES,
+	'link' => "admin/tree.php");
+$adminmenu[] = array(
+	'title' => _MI_IMTAGGING_TREE_LINKS,
+	'link' => "admin/tree_link.php");
 
 if (isset(icms::$module)) {
 

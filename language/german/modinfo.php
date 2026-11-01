@@ -41,3 +41,9 @@ define("_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_SBJ", "[{X_SITENAME}] {X_MODUL
 if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
 	define("_AM_IMTAGGING_CATEGORY_LINK", "Kategorie-Link");
 }
+if (!defined("_MI_IMTAGGING_TREES")) {
+	define("_MI_IMTAGGING_TREES", "Category trees");
+}
+if (!defined("_MI_IMTAGGING_TREE_LINKS")) {
+	define("_MI_IMTAGGING_TREE_LINKS", "Trees per module");
+}

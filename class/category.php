@@ -24,13 +24,20 @@ class ImtaggingCategory extends icms_ipf_seo_Object {
 		parent::__construct($handler);
 
 		$this->quickInitVar('category_id', XOBJ_DTYPE_INT, true);
+		$this->quickInitVar('category_tid', XOBJ_DTYPE_INT, false);
 		$this->quickInitVar('category_pid', XOBJ_DTYPE_INT, false);
 		$this->quickInitVar('category_title', XOBJ_DTYPE_TXTBOX);
 		$this->quickInitVar('category_description', XOBJ_DTYPE_TXTAREA);
 		$this->initCommonVar('weight');
 
+		$this->setControl('category_tid', array(
+			'itemHandler' => 'tree',
+			'method' => 'getTreeList',
+			'module' => 'imtagging',
+			'onSelect' => 'submit'));
+
 		$this->setControl('category_pid', array(
-			'name' => 'parentcategory'));
+			'name' => 'categoryparent'));
 
 		$this->initiateSEO();
 	}
@@ -45,12 +52,20 @@ class ImtaggingCategory extends icms_ipf_seo_Object {
 	 */
 	function getVar($key, $format = 's') {
 		if ($format == 's' && in_array($key, array(
-			'category_pid'))) {
+			'category_pid',
+			'category_tid'))) {
 			return call_user_func(array(
 				$this,
 				$key));
 		}
 		return parent::getVar($key, $format);
+	}
+
+	function category_tid() {
+		$tree_handler = icms_getModuleHandler('tree', 'imtagging');
+		$treeObj = $tree_handler->get($this->getVar('category_tid', 'e'));
+
+		return $treeObj && !$treeObj->isNew() ? $treeObj->getVar('tree_title') : '';
 	}
 
 	function category_pid() {
@@ -156,6 +171,53 @@ class ImtaggingCategoryHandler extends icms_ipf_Handler {
 	 */
 	function beforeSave(&$obj) {
 		$obj->setVar('dobr', $obj->need_do_br());
+
+		if (!$obj->getVar('category_tid', 'e')) {
+			$tree_handler = icms_getModuleHandler('tree', 'imtagging');
+			$obj->setVar('category_tid', $tree_handler->getDefaultTreeId());
+		}
+
+		$parentId = (int) $obj->getVar('category_pid', 'e');
+		if (!$parentId) {
+			return true;
+		}
+
+		$invalidParents = array_merge(array((int) $obj->id()), $this->getDescendantIds($obj->id()));
+		if (in_array($parentId, $invalidParents, true)) {
+			$obj->setErrors(_AM_IMTAGGING_CATEGORY_INVALID_PARENT);
+
+			return false;
+		}
+
+		$parentObj = $this->get($parentId);
+		if ($parentObj->isNew() || $parentObj->getVar('category_tid', 'e') != $obj->getVar('category_tid', 'e')) {
+			$obj->setErrors(_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * AfterSave event
+	 *
+	 * Moves the descendants of a category along when it moves to another tree
+	 *
+	 * @param object $obj ImtaggingCategory object
+	 * @return true
+	 */
+	function afterSave(&$obj) {
+		$descendantIds = $this->getDescendantIds($obj->id());
+		if ($descendantIds) {
+			$this->db->queryF(sprintf(
+				'UPDATE %s SET category_tid = %d WHERE category_id IN (%s)',
+				$this->table,
+				(int) $obj->getVar('category_tid', 'e'),
+				implode(', ', $descendantIds)
+			));
+		}
+
 		return true;
 	}
 

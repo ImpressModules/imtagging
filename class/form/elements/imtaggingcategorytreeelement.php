@@ -31,6 +31,11 @@ class ImtaggingCategoryTreeElement extends ImtaggingTrayElement {
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->setSort("weight, " . $category_title_field);
 
+		$treeId = $this->getTreeId($object, $key);
+		if ($treeId) {
+			$criteria->add(new icms_db_criteria_Item('category_tid', $treeId));
+		}
+
 		$categories = $category_handler->getObjects($criteria);
 
 		include_once ICMS_ROOT_PATH . "/modules/imtagging/class/form/elements/imtaggingcategorycheckboxelement.php";
@@ -76,6 +81,27 @@ class ImtaggingCategoryTreeElement extends ImtaggingTrayElement {
 
 			$this->addElement($new_category_tray);
 		}
+	}
+
+	/**
+	 * Tree whose categories are offered: the one set on the control, or the one linked to the item of the
+	 * module, which is the default tree for modules without a tree of their own
+	 *
+	 * @return int id of the tree, 0 to offer the categories of all trees
+	 */
+	private function getTreeId($object, $key) {
+		$treeSetting = $object->controls[$key]['tree'] ?? null;
+		if ($treeSetting === 'all') {
+			return 0;
+		}
+
+		if ($treeSetting) {
+			return (int) $treeSetting;
+		}
+
+		$tree_handler = icms_getModuleHandler('tree', 'imtagging');
+
+		return $tree_handler->getTreeIdForItem($object->handler->_moduleName, $object->handler->_itemname);
 	}
 
 	/**

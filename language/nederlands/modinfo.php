@@ -39,3 +39,12 @@ define('_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY', 'Nieuwe tag gepubliceerd');
 define('_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_CAP', 'Stuur me bericht als een nieuwe tag is gepubliceerd');
 define('_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_DSC', 'Ontvang bericht wanneer een nieuwe tag is gepubliceerd.');
 define('_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_SBJ', '[{X_SITENAME}] {X_MODULE} auto-berichtgeving: Nieuwe tag gepubliceerd');
+if (!defined("_MI_IMTAGGING_TREES")) {
+	define("_MI_IMTAGGING_TREES", "Categoriebomen");
+}
+if (!defined("_MI_IMTAGGING_TREE_LINKS")) {
+	define("_MI_IMTAGGING_TREE_LINKS", "Bomen per module");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Categorie link");
+}

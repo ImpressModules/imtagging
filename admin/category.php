@@ -22,6 +22,16 @@ function editcategory($category_id = 0) {
 
 	$categoryObj = $imtagging_category_handler->get($category_id);
 
+	if (isset($_POST['op']) && $_POST['op'] == 'changedField') {
+		$controller = new icms_ipf_Controller($imtagging_category_handler);
+		$controller->postDataToObject($categoryObj);
+	}
+
+	if ($categoryObj->isNew() && !$categoryObj->getVar('category_tid', 'e')) {
+		$tree_handler = icms_getModuleHandler('tree', 'imtagging');
+		$categoryObj->setVar('category_tid', isset($_GET['tid']) ? (int) $_GET['tid'] : $tree_handler->getDefaultTreeId());
+	}
+
 	if (!$categoryObj->isNew()) {
 
 		icms::$module->displayAdminMenu(0, _AM_IMTAGGING_CATEGORIES . " > " . _CO_ICMS_EDITING);
@@ -122,6 +132,7 @@ if (in_array($clean_op, $valid_op, true)) {
 
 			$objectTable = new icms_ipf_view_Table($imtagging_category_handler);
 			$objectTable->addColumn(new icms_ipf_view_Column('category_title', _GLOBAL_LEFT, '200', 'getAdminViewItemLink'));
+			$objectTable->addColumn(new icms_ipf_view_Column('category_tid', _GLOBAL_LEFT, '200'));
 			$objectTable->addColumn(new icms_ipf_view_Column('category_description'));
 
 			$objectTable->addIntroButton('addcategory', 'category.php?op=mod', _AM_IMTAGGING_CATEGORY_CREATE);

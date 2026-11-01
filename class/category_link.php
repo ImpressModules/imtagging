@@ -29,7 +29,8 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 		$this->setControl('category_link_cid', array(
 			'name' => 'categorytree',
 			'itemHandler' => 'category',
-			'module' => 'imtagging'));
+			'module' => 'imtagging',
+			'tree' => 'all'));
 
 		$this->setControl('category_link_mid', array(
 			'name' => 'module',
@@ -208,6 +209,33 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 		return $ret;
 	}
 
+	/**
+	 * Keeps only the categories that belong to the tree the item has to use
+	 *
+	 * @param object $obj object that gets the categories
+	 * @param mixed $categoryIds ids of the selected categories
+	 * @return mixed the ids that belong to the tree, or the unchanged value when it is no array
+	 */
+	function filterCategoriesOfTree(&$obj, $categoryIds) {
+		if (!is_array($categoryIds) || !$categoryIds) {
+			return $categoryIds;
+		}
+
+		$tree_handler = icms_getModuleHandler('tree', 'imtagging');
+		$treeId = $tree_handler->getTreeIdForItem($obj->handler->_moduleName, $obj->handler->_itemname);
+
+		$criteria = new icms_db_criteria_Compo();
+		$criteria->add(new icms_db_criteria_Item('category_id', '(' . implode(', ', array_map('intval', $categoryIds)) . ')', 'IN'));
+		$criteria->add(new icms_db_criteria_Item('category_tid', $treeId));
+
+		$category_handler = icms_getModuleHandler('category', 'imtagging');
+		$allowedIds = array_map('intval', array_keys($category_handler->getObjects($criteria, true)));
+
+		return array_values(array_filter($categoryIds, function ($id) use ($allowedIds) {
+			return in_array((int) $id, $allowedIds, true);
+		}));
+	}
+
 	function deleteAllForObject(&$obj) {
 		/**
 		 *
@@ -235,7 +263,7 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 
 		$moduleObj = icms_getModuleInfo($obj->handler->_moduleName);
 
-		$category_array = $obj->getVar($category_var);
+		$category_array = $this->filterCategoriesOfTree($obj, $obj->getVar($category_var));
 
 		if (is_array($category_array)) {
 			foreach ($category_array as $category) {

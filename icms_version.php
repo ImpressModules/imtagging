@@ -17,7 +17,7 @@ if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
 /**  General Information  */
 $modversion = array(
   'name'=> _MI_IMTAGGING_MD_NAME,
-  'version'=> '1.3',
+  'version'=> '1.4',
   'description'=> _MI_IMTAGGING_MD_DESC,
   'author'=> "David Janssens",
   'credits'=> "INBOX International inc., The SmartFactory",
@@ -53,6 +53,8 @@ $modversion['adminmenu'] = "admin/menu.php";
 $modversion['object_items'][1] = 'category';
 $modversion['object_items'][] = 'category_link';
 $modversion['object_items'][] = 'tag';
+$modversion['object_items'][] = 'tree';
+$modversion['object_items'][] = 'tree_link';
 $modversion["tables"] = icms_getTablesArray($modversion['dirname'], $modversion['object_items']);
 
 /** Install and update informations */
@@ -88,6 +90,14 @@ $modversion['templates'][]= array(
 $modversion['templates'][]= array(
   'file' => 'imtagging_admin_category_link.html',
   'description' => 'Category Link Index');
+
+$modversion['templates'][]= array(
+  'file' => 'imtagging_admin_tree.html',
+  'description' => 'Tree Index');
+
+$modversion['templates'][]= array(
+  'file' => 'imtagging_admin_tree_link.html',
+  'description' => 'Tree Link Index');
 
 $modversion['templates'][] = array(
   'file' => 'imtagging_index.html',

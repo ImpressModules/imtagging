@@ -45,3 +45,45 @@ define('_CO_IMTAGGING_TAG_TAG_UID', 'Gemaakt door');
 define('_CO_IMTAGGING_TAG_TAG_UID_DSC', '');
 
 define('_CO_IMTAGGING_CATEGORY_ADD', '+ Nieuwe categorie toevoegen');
+if (!defined("_CO_IMTAGGING_CATEGORY_CATEGORY_TID")) {
+	define("_CO_IMTAGGING_CATEGORY_CATEGORY_TID", "Categorieboom");
+}
+if (!defined("_CO_IMTAGGING_CATEGORY_CATEGORY_TID_DSC")) {
+	define("_CO_IMTAGGING_CATEGORY_CATEGORY_TID_DSC", "Wijzigen van de boom laadt de lijst met mogelijke bovenliggende categorieën opnieuw.");
+}
+if (!defined("_CO_IMTAGGING_TREE_TREE_TITLE")) {
+	define("_CO_IMTAGGING_TREE_TREE_TITLE", "Titel");
+}
+if (!defined("_CO_IMTAGGING_TREE_TREE_TITLE_DSC")) {
+	define("_CO_IMTAGGING_TREE_TREE_TITLE_DSC", "");
+}
+if (!defined("_CO_IMTAGGING_TREE_TREE_DESCRIPTION")) {
+	define("_CO_IMTAGGING_TREE_TREE_DESCRIPTION", "Beschrijving");
+}
+if (!defined("_CO_IMTAGGING_TREE_TREE_DESCRIPTION_DSC")) {
+	define("_CO_IMTAGGING_TREE_TREE_DESCRIPTION_DSC", "");
+}
+if (!defined("_CO_IMTAGGING_TREE_TREE_DEFAULT")) {
+	define("_CO_IMTAGGING_TREE_TREE_DEFAULT", "Standaardboom");
+}
+if (!defined("_CO_IMTAGGING_TREE_TREE_DEFAULT_DSC")) {
+	define("_CO_IMTAGGING_TREE_TREE_DEFAULT_DSC", "Modules zonder eigen boom gebruiken de standaardboom. Er is er altijd precies één.");
+}
+if (!defined("_CO_IMTAGGING_TREE_DEFAULT_TITLE")) {
+	define("_CO_IMTAGGING_TREE_DEFAULT_TITLE", "Standaard");
+}
+if (!defined("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TID")) {
+	define("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TID", "Boom");
+}
+if (!defined("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TID_DSC")) {
+	define("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TID_DSC", "");
+}
+if (!defined("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TARGET")) {
+	define("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TARGET", "Module-item");
+}
+if (!defined("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TARGET_DSC")) {
+	define("_CO_IMTAGGING_TREE_LINK_TREE_LINK_TARGET_DSC", "Het item van een module dat zijn categorieën uit de gekozen boom haalt.");
+}
+if (!defined("_CO_IMTAGGING_TREE_LINK_TARGET_SELECT")) {
+	define("_CO_IMTAGGING_TREE_LINK_TARGET_SELECT", "Kies een module-item...");
+}

@@ -59,3 +59,45 @@ define("_AM_IMTAGGING_TAG_MODIFIED", "A Tag/etiqueta foi modificada com sucesso.
 define("_AM_IMTAGGING_TAG_CREATED", "A Tag/etiqueta foi criada com sucesso.");
 define("_AM_IMTAGGING_TAG_VIEW", "Informação da Tag");
 define("_AM_IMTAGGING_TAG_VIEW_DSC", "Aqui está a informação sobre esta tag.");
+if (!defined("_AM_IMTAGGING_TREES")) {
+	define("_AM_IMTAGGING_TREES", "Category trees");
+}
+if (!defined("_AM_IMTAGGING_TREE_CREATE")) {
+	define("_AM_IMTAGGING_TREE_CREATE", "Add a tree");
+}
+if (!defined("_AM_IMTAGGING_TREE_EDIT")) {
+	define("_AM_IMTAGGING_TREE_EDIT", "Edit this tree");
+}
+if (!defined("_AM_IMTAGGING_TREE_CREATED")) {
+	define("_AM_IMTAGGING_TREE_CREATED", "The tree has been successfully created.");
+}
+if (!defined("_AM_IMTAGGING_TREE_MODIFIED")) {
+	define("_AM_IMTAGGING_TREE_MODIFIED", "The tree was successfully modified.");
+}
+if (!defined("_AM_IMTAGGING_TREE_DELETE_DEFAULT")) {
+	define("_AM_IMTAGGING_TREE_DELETE_DEFAULT", "The default tree cannot be deleted. Make another tree the default first.");
+}
+if (!defined("_AM_IMTAGGING_TREE_DELETE_NOT_EMPTY")) {
+	define("_AM_IMTAGGING_TREE_DELETE_NOT_EMPTY", "This tree still contains categories. Delete or move them first.");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINKS")) {
+	define("_AM_IMTAGGING_TREE_LINKS", "Tree per module item");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_CREATE")) {
+	define("_AM_IMTAGGING_TREE_LINK_CREATE", "Link a module item to a tree");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_EDIT")) {
+	define("_AM_IMTAGGING_TREE_LINK_EDIT", "Edit this tree link");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_CREATED")) {
+	define("_AM_IMTAGGING_TREE_LINK_CREATED", "The tree link has been successfully created.");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_MODIFIED")) {
+	define("_AM_IMTAGGING_TREE_LINK_MODIFIED", "The tree link was successfully modified.");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_INVALID_PARENT")) {
+	define("_AM_IMTAGGING_CATEGORY_INVALID_PARENT", "A category cannot be its own parent or the parent of one of its parents.");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE")) {
+	define("_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE", "The parent category has to be in the same tree.");
+}
