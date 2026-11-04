@@ -95,24 +95,29 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 	}
 
 	function category_link_iid() {
-		$iid = $this->getVar('category_link_iid', 'e');
+		$iid = (int) $this->getVar('category_link_iid', 'e');
 		$moduleObj = $this->getCategory_linkModule();
+		if (!$moduleObj) {
+			return "#{$iid}";
+		}
+
 		$itemName = $this->getVar('category_link_item', 'e');
-		if (!$moduleObj || !$itemName) {
-			return '';
+		$handler = icms_getModulehandler($itemName, $moduleObj->getVar('dirname'));
+		if (!$handler) {
+			return "#{$iid}";
 		}
 
-		$category_link_module_handler = icms_getModulehandler($itemName, $moduleObj->getVar('dirname'), 'imtagging', true);
-		if (!$category_link_module_handler) {
-			return '';
+		$linkedObject = $handler->get($iid);
+		if (!$linkedObject || $linkedObject->isNew()) {
+			return "#{$iid}";
 		}
 
-		$category_link_object = $category_link_module_handler->get($iid);
-		if ($category_link_object && !$category_link_object->isNew()) {
-			return $category_link_object->getItemLink();
-		} else {
-			return '';
+		$link = $linkedObject->getItemLink();
+		if ($link === '' || $link === null) {
+			return (string) $linkedObject->title();
 		}
+
+		return $link;
 	}
 }
 

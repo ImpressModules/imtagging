@@ -135,7 +135,7 @@ if (in_array($clean_op, $valid_op, true)) {
 			$objectTable->addColumn(new icms_ipf_view_Column('category_link_cid', _GLOBAL_LEFT, '200'));
 			$objectTable->addColumn(new icms_ipf_view_Column('category_link_mid'));
 			$objectTable->addColumn(new icms_ipf_view_Column('category_link_item'));
-			$objectTable->addColumn(new icms_ipf_view_Column('category_link_iid'));
+			$objectTable->addColumn(new icms_ipf_view_Column('category_link_iid', _GLOBAL_LEFT, false, 'category_link_iid'));
 
 			$objectTable->addIntroButton('addcategory_link', 'category_link.php?op=mod', _AM_IMTAGGING_CATEGORY_LINK_CREATE);
 
