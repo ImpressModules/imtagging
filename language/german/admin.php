@@ -36,7 +36,9 @@ define("_AM_IMTAGGING_CATEGORY_VIEW_DSC", "Mehr Informationen zu der Kategorie a
 // Category_link
 define("_AM_IMTAGGING_CATEGORY_LINK_LINKS_DSC", "Alle Kategorie-Links des Modules");
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE", "Kategorie-Link hinzufügen");
-define("_AM_IMTAGGING_CATEGORY_LINK", "Kategorie-Link");
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Kategorie-Link");
+}
 define("_AM_IMTAGGING_CATEGORY_LINK_CREATE_INFO", "Zum Erstellen für ein neuen Kategorie-Link das Formular ausfüllen.");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT", "Kategorie-Link bearbeiten");
 define("_AM_IMTAGGING_CATEGORY_LINK_EDIT_INFO", "Zum Bearbeiten des Kategorie-Link das Formular ausfüllen.");
@@ -56,3 +58,45 @@ define("_AM_IMTAGGING_TAG_MODIFIED", "Das Tag wurde aktualisiert.");
 define("_AM_IMTAGGING_TAG_CREATED", "Das Tag wurde erstellt.");
 define("_AM_IMTAGGING_TAG_VIEW", "Tag Infos");
 define("_AM_IMTAGGING_TAG_VIEW_DSC", "Mehr Informationen zum Tag anzeigen.");
+if (!defined("_AM_IMTAGGING_TREES")) {
+	define("_AM_IMTAGGING_TREES", "Category trees");
+}
+if (!defined("_AM_IMTAGGING_TREE_CREATE")) {
+	define("_AM_IMTAGGING_TREE_CREATE", "Add a tree");
+}
+if (!defined("_AM_IMTAGGING_TREE_EDIT")) {
+	define("_AM_IMTAGGING_TREE_EDIT", "Edit this tree");
+}
+if (!defined("_AM_IMTAGGING_TREE_CREATED")) {
+	define("_AM_IMTAGGING_TREE_CREATED", "The tree has been successfully created.");
+}
+if (!defined("_AM_IMTAGGING_TREE_MODIFIED")) {
+	define("_AM_IMTAGGING_TREE_MODIFIED", "The tree was successfully modified.");
+}
+if (!defined("_AM_IMTAGGING_TREE_DELETE_DEFAULT")) {
+	define("_AM_IMTAGGING_TREE_DELETE_DEFAULT", "The default tree cannot be deleted. Make another tree the default first.");
+}
+if (!defined("_AM_IMTAGGING_TREE_DELETE_NOT_EMPTY")) {
+	define("_AM_IMTAGGING_TREE_DELETE_NOT_EMPTY", "This tree still contains categories. Delete or move them first.");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINKS")) {
+	define("_AM_IMTAGGING_TREE_LINKS", "Tree per module item");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_CREATE")) {
+	define("_AM_IMTAGGING_TREE_LINK_CREATE", "Link a module item to a tree");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_EDIT")) {
+	define("_AM_IMTAGGING_TREE_LINK_EDIT", "Edit this tree link");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_CREATED")) {
+	define("_AM_IMTAGGING_TREE_LINK_CREATED", "The tree link has been successfully created.");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_MODIFIED")) {
+	define("_AM_IMTAGGING_TREE_LINK_MODIFIED", "The tree link was successfully modified.");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_INVALID_PARENT")) {
+	define("_AM_IMTAGGING_CATEGORY_INVALID_PARENT", "A category cannot be its own parent or the parent of one of its parents.");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE")) {
+	define("_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE", "The parent category has to be in the same tree.");
+}

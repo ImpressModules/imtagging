@@ -25,14 +25,6 @@
 	font-size: 80%;
 }
 .imtagging_tag_content {}
-#imtagging_tag_comments_container {}
-.imtagging_tag_comments {
-	background-image: url(images/comments.gif);
-	background-repeat: no-repeat;
-	padding-left: 15px;
-	vertical-align: middle;
-	font-size: 80%;
-}
 .imtagging_admin_links {}
 #imtagging_navbar {
 	text-align: center;

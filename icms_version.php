@@ -17,7 +17,7 @@ if (!defined("ICMS_ROOT_PATH")) die("ICMS root path not defined");
 /**  General Information  */
 $modversion = array(
   'name'=> _MI_IMTAGGING_MD_NAME,
-  'version'=> '1.2',
+  'version'=> '1.4',
   'description'=> _MI_IMTAGGING_MD_DESC,
   'author'=> "David Janssens",
   'credits'=> "INBOX International inc., The SmartFactory",
@@ -32,17 +32,17 @@ $modversion = array(
   'image'=> "images/icon_big.png", /* for backward compatibility */
 
 /**  Development information */
-  'status_version'=> "RC",
-  'status'=> "RC",
-  'date'=> "11 August 2023",
-  'author_word'=> "Compatibility with ImpressCMS 2.0",
+  'status_version'=> "Beta",
+  'status'=> "Beta",
+  'date'=> "27 October 2026",
+  'author_word'=> "Compatibility with ImpressCMS 2.0.4 and PHP 8.2+",
 
 /** Contributors */
   'developer_website_url' => "https://github.com/ImpressModules/imtagging",
   'developer_website_name' => "Github",
   'developer_email' => "david.j@impresscms.org");
 $modversion['people']['developers'][] = "[url=https://www.impresscms.org/userinfo.php?uid=1102]fiammybe[/url] (David Janssens)";
-$modversion['warning'] = _CO_SOBJECT_WARNING_RC;
+$modversion['warning'] = _CO_ICMS_WARNING_RC;
 
 /** Administrative information */
 $modversion['hasAdmin'] = 1;
@@ -53,6 +53,8 @@ $modversion['adminmenu'] = "admin/menu.php";
 $modversion['object_items'][1] = 'category';
 $modversion['object_items'][] = 'category_link';
 $modversion['object_items'][] = 'tag';
+$modversion['object_items'][] = 'tree';
+$modversion['object_items'][] = 'tree_link';
 $modversion["tables"] = icms_getTablesArray($modversion['dirname'], $modversion['object_items']);
 
 /** Install and update informations */
@@ -66,26 +68,7 @@ $modversion['search'] = array (
   'func' => "imtagging_search");
 
 /** Menu information */
-$modversion['hasMain'] = 0;
-
-/** Blocks information */
-$modversion['blocks'][1] = array(
-  'file' => 'tag_recent.php',
-  'name' => _MI_IMTAGGING_TAGRECENT,
-  'description' => _MI_IMTAGGING_TAGRECENTDSC,
-  'show_func' => 'imtagging_tag_recent_show',
-  'edit_func' => 'imtagging_tag_recent_edit',
-  'options' => '5',
-  'template' => 'imtagging_tag_recent.html');
-
-$modversion['blocks'][] = array(
-  'file' => 'tag_by_month.php',
-  'name' => _MI_IMTAGGING_TAGBYMONTH,
-  'description' => _MI_IMTAGGING_TAGBYMONTHDSC,
-  'show_func' => 'imtagging_tag_by_month_show',
-  'edit_func' => 'imtagging_tag_by_month_edit',
-  'options' => '',
-  'template' => 'imtagging_tag_by_month.html');
+$modversion['hasMain'] = 1;
 
 /** Templates information */
 $modversion['templates'][1] = array(
@@ -107,6 +90,14 @@ $modversion['templates'][]= array(
 $modversion['templates'][]= array(
   'file' => 'imtagging_admin_category_link.html',
   'description' => 'Category Link Index');
+
+$modversion['templates'][]= array(
+  'file' => 'imtagging_admin_tree.html',
+  'description' => 'Tree Index');
+
+$modversion['templates'][]= array(
+  'file' => 'imtagging_admin_tree_link.html',
+  'description' => 'Tree Link Index');
 
 $modversion['templates'][] = array(
   'file' => 'imtagging_index.html',
@@ -136,8 +127,8 @@ foreach($groups_array as $k=>$v) {
 
 $modversion['config'][1] = array(
   'name' => 'tager_groups',
-  'title' => '_MI_IMTAGGING_TAGERGR',
-  'description' => '_MI_IMTAGGING_TAGERGRDSC',
+  'title' => _MI_IMTAGGING_TAGERGR,
+  'description' => _MI_IMTAGGING_TAGERGRDSC,
   'formtype' => 'select_multi',
   'valuetype' => 'array',
   'options' => $select_groups_options,
@@ -145,24 +136,14 @@ $modversion['config'][1] = array(
 
 $modversion['config'][] = array(
   'name' => 'tags_limit',
-  'title' => '_MI_IMTAGGING_LIMIT',
-  'description' => '_MI_IMTAGGING_LIMITDSC',
+  'title' => _MI_IMTAGGING_LIMIT,
+  'description' => _MI_IMTAGGING_LIMITDSC,
   'formtype' => 'textbox',
   'valuetype' => 'text',
   'default' => 5);
 
 /** Comments information */
-$modversion['hasComments'] = 1;
-
-$modversion['comments'] = array(
-  'itemName' => 'tag_id',
-  'pageName' => 'tag.php',
-  /* Comment callback functions */
-  'callbackFile' => 'include/comment.inc.php',
-  'callback' => array(
-    'approve' => 'imtagging_com_approve',
-    'update' => 'imtagging_com_update')
-    );
+$modversion['hasComments'] = 0;
 
 /** Notification information */
 $modversion['hasNotification'] = 1;

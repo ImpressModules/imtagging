@@ -51,11 +51,10 @@ $valid_op = array(
 	'changedField',
 	'addtag',
 	'del',
-	'view',
 	'');
 
-if (isset($_GET['op'])) $clean_op = htmlentities($_GET['op']);
-if (isset($_POST['op'])) $clean_op = htmlentities($_POST['op']);
+if (isset($_GET['op'])) $clean_op = htmlentities((string) $_GET['op']);
+if (isset($_POST['op'])) $clean_op = htmlentities((string) $_POST['op']);
 
 /**
  * Again, use a naming convention that indicates the source of the content of the variable
@@ -87,36 +86,6 @@ if (in_array($clean_op, $valid_op, true)) {
 		case "del":
 			$controller = new icms_ipf_Controller($imtagging_tag_handler);
 			$controller->handleObjectDeletion();
-
-			break;
-
-		case "view":
-			$tagObj = $imtagging_tag_handler->get($clean_tag_id);
-
-			icms_cp_header();
-			icms_adminMenu(1, _AM_IMTAGGING_TAG_VIEW . ' > ' . $tagObj->getVar('tag_title'));
-
-			icms_collapsableBar('tagview', $tagObj->getVar('tag_title') . $tagObj->getEditItemLink(), _AM_IMTAGGING_TAG_VIEW_DSC);
-
-			$tagObj->displaySingleObject();
-
-			icms_close_collapsable('tagview');
-
-			icms_collapsableBar('tagview_tags', _AM_IMTAGGING_TAGS, _AM_IMTAGGING_TAGS_IN_TAG_DSC);
-
-			$criteria = new icms_db_criteria_Compo();
-			$criteria->add(new icms_db_criteria_Item('tag_id', $clean_tag_id));
-
-			$objectTable = new icms_ipf_view_Table($imtagging_tag_handler, $criteria);
-			$objectTable->addColumn(new icms_ipf_view_Column('tag_date', _GLOBAL_LEFT, 150));
-			$objectTable->addColumn(new icms_ipf_view_Column('tag_message'));
-			$objectTable->addColumn(new icms_ipf_view_Column('tag_uid', _GLOBAL_LEFT, 150));
-
-			$objectTable->addIntroButton('addtag', 'tag.php?op=mod&tag_id=' . $clean_tag_id, _AM_IMTAGGING_TAG_CREATE);
-
-			$objectTable->render();
-
-			icms_close_collapsable('tagview_tags');
 
 			break;
 

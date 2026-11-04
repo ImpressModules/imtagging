@@ -3,12 +3,8 @@
 <{foreach item=imtagging_tag from=$imtagging_tags}>
 	<div class="imtagging_tag_container">
 		<h1><{$imtagging_tag.itemLink}></h1>
-		<div class="imtagging_tag_info"><{$imtagging_tag.tag_info}></div>
 		<div class="imtagging_tag_content">
-			<{$imtagging_tag.tag_lead}>
-		</div>
-		<div class="imtagging_tag_comments">
-			<{$imtagging_tag.tag_comment_info}>
+			<{$imtagging_tag.tag_description}>
 		</div>
 		<{if $imtagging_tag.userCanEditAndDelete}>
 			<div class="imtagging_admin_links"><{$imtagging_tag.editItemLink}><{$imtagging_tag.deleteItemLink}></div>

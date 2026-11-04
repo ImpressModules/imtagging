@@ -51,3 +51,49 @@ define('_AM_IMTAGGING_TAG_MODIFIED', 'De tag is succesvol bijgewerkt.');
 define('_AM_IMTAGGING_TAG_CREATED', 'De tag is succesvol aangemaakt.');
 define('_AM_IMTAGGING_TAG_VIEW', 'Tag info');
 define('_AM_IMTAGGING_TAG_VIEW_DSC', 'Hier is de info over deze tag.');
+define('_AM_IMTAGGING_REQUIREMENTS', 'imTagging vereisten');
+define('_AM_IMTAGGING_REQUIREMENTS_INFO', 'Je systeem voldoet niet aan alle vereisten om imTagging te laten werken. Hieronder staan de vereisten.');
+define('_AM_IMTAGGING_REQUIREMENTS_ICMS_BUILD', 'imTagging vereist minstens ImpressCMS %s');
+define('_AM_IMTAGGING_REQUIREMENTS_SUPPORT', "Heb je vragen of opmerkingen? Bezoek dan onze forums op <a href='http://community.impresscms.org'>http://community.impresscms.org</a>.");
+if (!defined("_AM_IMTAGGING_TREES")) {
+	define("_AM_IMTAGGING_TREES", "Categoriebomen");
+}
+if (!defined("_AM_IMTAGGING_TREE_CREATE")) {
+	define("_AM_IMTAGGING_TREE_CREATE", "Boom toevoegen");
+}
+if (!defined("_AM_IMTAGGING_TREE_EDIT")) {
+	define("_AM_IMTAGGING_TREE_EDIT", "Deze boom bewerken");
+}
+if (!defined("_AM_IMTAGGING_TREE_CREATED")) {
+	define("_AM_IMTAGGING_TREE_CREATED", "De boom is succesvol aangemaakt.");
+}
+if (!defined("_AM_IMTAGGING_TREE_MODIFIED")) {
+	define("_AM_IMTAGGING_TREE_MODIFIED", "De boom is succesvol gewijzigd.");
+}
+if (!defined("_AM_IMTAGGING_TREE_DELETE_DEFAULT")) {
+	define("_AM_IMTAGGING_TREE_DELETE_DEFAULT", "De standaardboom kan niet verwijderd worden. Maak eerst een andere boom de standaard.");
+}
+if (!defined("_AM_IMTAGGING_TREE_DELETE_NOT_EMPTY")) {
+	define("_AM_IMTAGGING_TREE_DELETE_NOT_EMPTY", "Deze boom bevat nog categorieën. Verwijder of verplaats ze eerst.");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINKS")) {
+	define("_AM_IMTAGGING_TREE_LINKS", "Boom per module-item");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_CREATE")) {
+	define("_AM_IMTAGGING_TREE_LINK_CREATE", "Een module-item aan een boom koppelen");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_EDIT")) {
+	define("_AM_IMTAGGING_TREE_LINK_EDIT", "Deze boomkoppeling bewerken");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_CREATED")) {
+	define("_AM_IMTAGGING_TREE_LINK_CREATED", "De boomkoppeling is succesvol aangemaakt.");
+}
+if (!defined("_AM_IMTAGGING_TREE_LINK_MODIFIED")) {
+	define("_AM_IMTAGGING_TREE_LINK_MODIFIED", "De boomkoppeling is succesvol gewijzigd.");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_INVALID_PARENT")) {
+	define("_AM_IMTAGGING_CATEGORY_INVALID_PARENT", "Een categorie kan niet haar eigen parent zijn of de parent van een van haar parents.");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE")) {
+	define("_AM_IMTAGGING_CATEGORY_PARENT_OTHER_TREE", "De bovenliggende categorie moet in dezelfde boom staan.");
+}

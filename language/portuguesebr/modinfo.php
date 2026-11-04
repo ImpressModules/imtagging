@@ -39,3 +39,12 @@ define("_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY", "Nova Tag publicada");
 define("_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_CAP", "Avise-me quando uma nova tag for publicada");
 define("_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_DSC", "Receberá uma notificação quando qualquer nova tag forem publicadas.");
 define("_MI_IMTAGGING_GLOBAL_TAG_PUBLISHED_NOTIFY_SBJ", "[{X_SITENAME}] {X_MODULE} Notificação-automática : Nova tag publicada");
+if (!defined("_MI_IMTAGGING_TREES")) {
+	define("_MI_IMTAGGING_TREES", "Category trees");
+}
+if (!defined("_MI_IMTAGGING_TREE_LINKS")) {
+	define("_MI_IMTAGGING_TREE_LINKS", "Trees per module");
+}
+if (!defined("_AM_IMTAGGING_CATEGORY_LINK")) {
+	define("_AM_IMTAGGING_CATEGORY_LINK", "Category link");
+}

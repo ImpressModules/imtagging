@@ -8,7 +8,7 @@
  * @since 1.0
  * @author marcan aka Marc-André Lanciault <marcan@smartfactory.ca>
  * @package imtagging
- * 
+ *
  */
 
 /**
@@ -36,7 +36,7 @@ function edittag($tagObj) {
 		if (!$imtagging_tag_handler->userCanSubmit()) {
 			redirect_header(IMTAGGING_URL, 3, _NOPERM);
 		}
-		$tagObj->setVar('tag_uid', icms::$user->uid());
+		$tagObj->setVar('tag_uid', icms::$user->getVar('uid'));
 		$tagObj->setVar('tag_published_date', time());
 		$tagObj->hideFieldFromForm(array(
 			'tag_published_date',
@@ -87,14 +87,14 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 	switch ($clean_op) {
 		case "mod":
 			if ($clean_tag_id > 0 && $tagObj->isNew()) {
-				redirect_header(icms_getPreviousPage('index.php'), 3, _NOPERM);
+				redirect_header(imtagging_getPreviousPage('index.php'), 3, _NOPERM);
 			}
 			edittag($tagObj);
 			break;
 
 		case "addtag":
 			if (!icms::$security->check()) {
-				redirect_header(icms_getPreviousPage('index.php'), 3, _MD_IMTAGGING_SECURITY_CHECK_FAILED . implode('<br />', icms::$security->getErrors()));
+				redirect_header(imtagging_getPreviousPage('index.php'), 3, _MD_IMTAGGING_SECURITY_CHECK_FAILED . implode('<br />', icms::$security->getErrors()));
 			}
 			$controller = new icms_ipf_Controller($imtagging_tag_handler);
 			$controller->storeFromDefaultForm(_MD_IMTAGGING_TAG_CREATED, _MD_IMTAGGING_TAG_MODIFIED);
@@ -106,7 +106,7 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 			}
 			if (isset($_POST['confirm'])) {
 				if (!icms::$security->check()) {
-					redirect_header($impresscms->urls['previouspage'], 3, _MD_IMTAGGING_SECURITY_CHECK_FAILED . implode('<br />', icms::$security->getErrors()));
+					redirect_header(imtagging_getPreviousPage('index.php'), 3, _MD_IMTAGGING_SECURITY_CHECK_FAILED . implode('<br />', icms::$security->getErrors()));
 				}
 			}
 			$controller = new icms_ipf_Controller($imtagging_tag_handler);
@@ -121,11 +121,6 @@ if (in_array($clean_op, $valid_op, TRUE)) {
 				$icmsTpl->assign('imtagging_category_path', $tagObj->getVar('tag_title'));
 			} else {
 				redirect_header(IMTAGGING_URL, 3, _NOPERM);
-			}
-
-			if ($icmsModuleConfig['com_rule'] && $tagObj->getVar('tag_cancomment')) {
-				$icmsTpl->assign('imtagging_tag_comment', true);
-				include_once ICMS_ROOT_PATH . '/include/comment_view.php';
 			}
 			break;
 	}

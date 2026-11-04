@@ -18,8 +18,6 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 	 * @param object $handler ImtaggingCategory_linkHandler object
 	 */
 	public function __construct(&$handler) {
-		global $icmsConfig;
-
 		parent::__construct($handler);
 
 		$this->quickInitVar('category_link_id', XOBJ_DTYPE_INT, true);
@@ -31,7 +29,8 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 		$this->setControl('category_link_cid', array(
 			'name' => 'categorytree',
 			'itemHandler' => 'category',
-			'module' => 'imtagging'));
+			'module' => 'imtagging',
+			'tree' => 'all'));
 
 		$this->setControl('category_link_mid', array(
 			'name' => 'module',
@@ -73,9 +72,11 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 			} else {
 				$ret = $obj->getItemLink();
 			}
-		} else {
-			return '';
+
+			return $ret;
 		}
+
+		return '';
 	}
 
 	function category_link_mid() {
@@ -94,15 +95,29 @@ class ImtaggingCategory_link extends icms_ipf_Object {
 	}
 
 	function category_link_iid() {
-		$iid = $this->getVar('category_link_iid', 'e');
+		$iid = (int) $this->getVar('category_link_iid', 'e');
 		$moduleObj = $this->getCategory_linkModule();
-		$category_link_module_handler = icms_getModulehandler($this->getVar('category_link_item'), $moduleObj->getVar('dirname'));
-		$category_link_object = $category_link_module_handler->get($iid);
-		if ($category_link_object && !$category_link_object->isNew()) {
-			return $category_link_object->getItemLink();
-		} else {
-			return '';
+		if (!$moduleObj) {
+			return "#{$iid}";
 		}
+
+		$itemName = $this->getVar('category_link_item', 'e');
+		$handler = icms_getModulehandler($itemName, $moduleObj->getVar('dirname'));
+		if (!$handler) {
+			return "#{$iid}";
+		}
+
+		$linkedObject = $handler->get($iid);
+		if (!$linkedObject || $linkedObject->isNew()) {
+			return "#{$iid}";
+		}
+
+		$link = $linkedObject->getItemLink();
+		if ($link === '' || $link === null) {
+			return (string) $linkedObject->title();
+		}
+
+		return $link;
 	}
 }
 
@@ -146,11 +161,15 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 	 * @return array array of ImtaggingCategory objects
 	 */
 	function getCategoriesFromObjectIds($iids, &$handler) {
+		if (empty($iids)) {
+			return array();
+		}
+
 		$moduleObj = icms_getModuleInfo($handler->_moduleName);
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('category_link_mid', $moduleObj->getVar("mid")));
 		$criteria->add(new icms_db_criteria_Item('category_link_item', $handler->_itemname));
-		$criteria->add(new icms_db_criteria_Item('category_link_iid', '(' . implode(', ', $iids) . ')', 'IN'));
+		$criteria->add(new icms_db_criteria_Item('category_link_iid', '(' . implode(', ', array_map('intval', $iids)) . ')', 'IN'));
 
 		$sql = 'SELECT category_link_cid, category_link_iid FROM ' . $this->table;
 		$rows = $this->query($sql, $criteria);
@@ -161,9 +180,13 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 			$iids_by_cid[$row['category_link_cid']][] = $row['category_link_iid'];
 		}
 
+		if (empty($iids_by_cid)) {
+			return array();
+		}
+
 		$imtagging_category_handler = icms_getModulehandler('category', 'imtagging');
 		$criteria = new icms_db_criteria_Compo();
-		$criteria->add(new icms_db_criteria_Item('category_id', '(' . implode(', ', array_keys($iids_by_cid)) . ')', 'IN'));
+		$criteria->add(new icms_db_criteria_Item('category_id', '(' . implode(', ', array_map('intval', array_keys($iids_by_cid))) . ')', 'IN'));
 		$ret = $imtagging_category_handler->getObjects($criteria);
 
 		// add iids to each categoryObj
@@ -173,20 +196,49 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 		return $ret;
 	}
 
-	function getItemidsForCategory($cid, &$handler = false) {
+	function getItemidsForCategory($cid, &$handler) {
 		$moduleObj = icms_getModuleInfo($handler->_moduleName);
 
 		$criteria = new icms_db_criteria_Compo();
 		$criteria->add(new icms_db_criteria_Item('category_link_mid', $moduleObj->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('category_link_item', $handler->_itemname));
-		$criteria->add(new icms_db_criteria_Item('category_link_cid', $cid));
-		$sql = 'SELECT category_link_iid FROM ' . $this->table;
+		$imtagging_category_handler = icms_getModulehandler('category', 'imtagging');
+		$categoryIds = array_merge(array((int) $cid), $imtagging_category_handler->getDescendantIds($cid));
+		$criteria->add(new icms_db_criteria_Item('category_link_cid', '(' . implode(', ', $categoryIds) . ')', 'IN'));
+		$sql = 'SELECT DISTINCT category_link_iid FROM ' . $this->table;
 		$rows = $this->query($sql, $criteria);
 		$ret = array();
 		foreach ($rows as $row) {
 			$ret[] = $row['category_link_iid'];
 		}
 		return $ret;
+	}
+
+	/**
+	 * Keeps only the categories that belong to the tree the item has to use
+	 *
+	 * @param object $obj object that gets the categories
+	 * @param mixed $categoryIds ids of the selected categories
+	 * @return mixed the ids that belong to the tree, or the unchanged value when it is no array
+	 */
+	function filterCategoriesOfTree(&$obj, $categoryIds) {
+		if (!is_array($categoryIds) || !$categoryIds) {
+			return $categoryIds;
+		}
+
+		$tree_handler = icms_getModuleHandler('tree', 'imtagging');
+		$treeId = $tree_handler->getTreeIdForItem($obj->handler->_moduleName, $obj->handler->_itemname);
+
+		$criteria = new icms_db_criteria_Compo();
+		$criteria->add(new icms_db_criteria_Item('category_id', '(' . implode(', ', array_map('intval', $categoryIds)) . ')', 'IN'));
+		$criteria->add(new icms_db_criteria_Item('category_tid', $treeId));
+
+		$category_handler = icms_getModuleHandler('category', 'imtagging');
+		$allowedIds = array_map('intval', array_keys($category_handler->getObjects($criteria, true)));
+
+		return array_values(array_filter($categoryIds, function ($id) use ($allowedIds) {
+			return in_array((int) $id, $allowedIds, true);
+		}));
 	}
 
 	function deleteAllForObject(&$obj) {
@@ -216,7 +268,7 @@ class ImtaggingCategory_linkHandler extends icms_ipf_Handler {
 
 		$moduleObj = icms_getModuleInfo($obj->handler->_moduleName);
 
-		$category_array = $obj->getVar($category_var);
+		$category_array = $this->filterCategoriesOfTree($obj, $obj->getVar($category_var));
 
 		if (is_array($category_array)) {
 			foreach ($category_array as $category) {

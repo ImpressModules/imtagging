@@ -16,7 +16,10 @@ class ImtaggingItemidElement extends icms_form_elements_Select {
 		$icms_persistable_registry = icms_ipf_registry_Handler::getInstance();
 		$icms_module = $object->getCategory_linkModule();
 		parent::__construct($object->vars[$key]['form_caption'], $key, $object->getVar($key, 'e'));
-		$optionArray = $icms_persistable_registry->getList($object->getVar('category_link_item'), $icms_module->getVar("dirname"));
+		$optionArray = array();
+		if ($icms_module && $object->getVar('category_link_item', 'e')) {
+			$optionArray = (array) $icms_persistable_registry->getList($object->getVar('category_link_item', 'e'), $icms_module->getVar("dirname"));
+		}
 		$this->addOptionArray(array(
 			0 => _CO_IMTAGGING_CATEGORY_LINK_IID_SELECT) + $optionArray);
 	}

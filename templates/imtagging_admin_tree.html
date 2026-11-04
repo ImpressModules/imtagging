@@ -1,0 +1,11 @@
+<{if $imtagging_tree_info}>
+    <p><{$imtagging_tree_info}></p>
+<{/if}>
+
+<{if $imtagging_tree_table}>
+    <{$imtagging_tree_table}>
+<{/if}>
+
+<{if $addtree}>
+    <{includeq file='db:system_common_form.html' form=$addtree}>
+<{/if}>
